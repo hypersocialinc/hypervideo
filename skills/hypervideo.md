@@ -197,17 +197,33 @@ export default function Home() {
 // app/api/process/route.ts
 import { Hypervideo } from '@hypervideo-dev/sdk';
 
+if (!process.env.HYPERVIDEO_API_KEY) {
+  throw new Error('HYPERVIDEO_API_KEY environment variable is required');
+}
+
 const client = new Hypervideo({ apiKey: process.env.HYPERVIDEO_API_KEY });
 
 export async function POST(req: Request) {
-  const formData = await req.formData();
-  const file = formData.get('video') as File;
+  try {
+    const formData = await req.formData();
+    const file = formData.get('video') as File;
 
-  const result = await client.video.removeBackground({
-    file,
-    formats: ['stacked-alpha'],
-  });
+    if (!file) {
+      return Response.json({ error: 'No video file provided' }, { status: 400 });
+    }
 
-  return Response.json(result);
+    const result = await client.video.removeBackground({
+      file,
+      formats: ['stacked-alpha'],
+    });
+
+    return Response.json(result);
+  } catch (error) {
+    console.error('Video processing error:', error);
+    return Response.json(
+      { error: error instanceof Error ? error.message : 'Processing failed' },
+      { status: 500 }
+    );
+  }
 }
 ```

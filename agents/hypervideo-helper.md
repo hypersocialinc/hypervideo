@@ -5,6 +5,8 @@ tools:
   - Read
   - Grep
   - Glob
+  - Bash
+  - Edit
 ---
 
 # Hypervideo Helper Agent

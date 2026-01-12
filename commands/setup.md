@@ -40,8 +40,12 @@ Initialize Hypervideo SDK in the current project.
    import { Hypervideo } from '@hypervideo-dev/sdk';
    import 'dotenv/config';
 
+   if (!process.env.HYPERVIDEO_API_KEY) {
+     throw new Error('HYPERVIDEO_API_KEY environment variable is required');
+   }
+
    export const hypervideo = new Hypervideo({
-     apiKey: process.env.HYPERVIDEO_API_KEY!,
+     apiKey: process.env.HYPERVIDEO_API_KEY,
    });
    ```
 
