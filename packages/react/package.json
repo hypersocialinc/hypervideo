@@ -1,0 +1,52 @@
+{
+  "name": "@hypervideo-dev/react",
+  "version": "0.1.1",
+  "description": "React components for Hypervideo - transparent video player and more",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "typecheck": "tsc --noEmit",
+    "release": "pnpm build && npm publish --access public"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "react": "^18.2.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "hypervideo",
+    "video",
+    "transparency",
+    "alpha",
+    "webgl",
+    "react",
+    "stacked-alpha",
+    "media"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hypersocialinc/hypervideo.git",
+    "directory": "packages/react"
+  },
+  "homepage": "https://hypervideo.dev"
+}

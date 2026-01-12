@@ -1,0 +1,17 @@
+# Swift Package Manager build artifacts
+.build/
+.swiftpm/
+Package.resolved
+
+# Xcode (exclude Example app)
+xcuserdata/
+DerivedData/
+*.xcworkspace
+
+# Allow Example project but ignore workspace data
+!Example/Example.xcodeproj/
+Example/Example.xcodeproj/project.xcworkspace/
+Example/Example.xcodeproj/xcuserdata/
+
+# OS
+.DS_Store
