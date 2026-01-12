@@ -55,9 +55,31 @@ function App() {
 }
 ```
 
+## Claude Code Plugin
+
+This repo includes a [Claude Code](https://claude.com/claude-code) plugin for AI-assisted Hypervideo development.
+
+### Install
+
+```
+/install-plugin https://github.com/hypersocialinc/hypervideo
+```
+
+### Features
+
+| Command | Description |
+|---------|-------------|
+| `/setup` | Initialize SDK with environment variables |
+| `/add-player` | Add React, Expo, or Swift player to your project |
+| `/remove-bg` | Remove background from image or video via CLI |
+
+The plugin also includes:
+- **Skill**: Auto-triggers on "transparent video", "stacked alpha", etc.
+- **Agent**: `hypervideo-helper` for debugging and implementation guidance
+
 ## Documentation
 
-Visit [hypervideo.dev/docs](https://hypervideo.dev/docs) for full documentation.
+Visit [api.hypervideo.dev/docs](https://api.hypervideo.dev/docs) for full API documentation.
 
 ## License
 
