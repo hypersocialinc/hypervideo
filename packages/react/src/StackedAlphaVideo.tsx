@@ -282,7 +282,15 @@ export function StackedAlphaVideo({
 
     setIsReady(true);
     onCanPlay?.();
-  }, [width, height, onCanPlay, renderFrame]);
+
+    // Try to auto-play now that video has loaded data
+    // This is more reliable than calling play() immediately after mount
+    if (autoPlay && video.paused) {
+      video.play().catch(() => {
+        // Autoplay blocked - user interaction needed
+      });
+    }
+  }, [width, height, onCanPlay, renderFrame, autoPlay]);
 
   const handlePlay = useCallback(() => {
     onPlay?.();
@@ -310,13 +318,6 @@ export function StackedAlphaVideo({
     video.addEventListener('ended', handleEnded);
     video.addEventListener('error', handleError);
 
-    // Try to auto-play
-    if (autoPlay) {
-      video.play().catch(() => {
-        // Autoplay blocked - user interaction needed
-      });
-    }
-
     return () => {
       video.removeEventListener('loadeddata', handleLoadedData);
       video.removeEventListener('play', handlePlay);
@@ -327,7 +328,7 @@ export function StackedAlphaVideo({
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, [initWebGL, handleLoadedData, handlePlay, handleEnded, handleError, autoPlay]);
+  }, [initWebGL, handleLoadedData, handlePlay, handleEnded, handleError]);
 
   // Update video source (setting src triggers load automatically)
   useEffect(() => {
