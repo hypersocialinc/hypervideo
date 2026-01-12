@@ -2,7 +2,8 @@
   "name": "hypervideo",
   "version": "0.1.0",
   "description": "Hypervideo SDK, CLI, API, and player integration for transparent video workflows",
-  "skills": ["skills/*.md"],
-  "commands": ["commands/*.md"],
-  "agents": ["agents/*.md"]
+  "author": {
+    "name": "HyperSocial",
+    "url": "https://github.com/hypersocialinc"
+  }
 }

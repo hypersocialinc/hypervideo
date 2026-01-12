@@ -1,0 +1,20 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "hypervideo-plugins",
+  "description": "Claude Code plugins for Hypervideo transparent video platform",
+  "owner": {
+    "name": "HyperSocial",
+    "email": "hello@hypersocial.com"
+  },
+  "plugins": [
+    {
+      "name": "hypervideo",
+      "description": "Hypervideo SDK, CLI, API, and player integration for transparent video workflows",
+      "author": {
+        "name": "HyperSocial"
+      },
+      "source": "./plugins/hypervideo",
+      "category": "development"
+    }
+  ]
+}
