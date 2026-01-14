@@ -1,4 +1,4 @@
-# @hypervideo/expo-native Implementation Guide
+# @hypervideo-dev/expo Implementation Guide
 
 ## Overview
 
@@ -6,7 +6,7 @@ This package provides a **native iOS Metal-based stacked-alpha video player** th
 
 ## Problem Solved
 
-The existing `@hypervideo/expo` uses Skia for cross-platform video rendering. Under heavy usage (continuous voice sessions, frequent video playback), we encountered `EXC_BREAKPOINT` crashes:
+The existing `@hypervideo-dev/expo` uses Skia for cross-platform video rendering. Under heavy usage (continuous voice sessions, frequent video playback), we encountered `EXC_BREAKPOINT` crashes:
 
 ```
 Thread 8 (Hermes GC):
@@ -120,7 +120,7 @@ The shader samples both halves and composites them for transparent video playbac
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `src` | `string` | - | Video URL (string) - compatible with @hypervideo/expo |
+| `src` | `string` | - | Video URL (string) - compatible with @hypervideo-dev/expo |
 | `source` | `{ uri: string } \| number` | - | Video URL or local require() |
 | `style` | `ViewStyle` | - | Container style (controls sizing) |
 | `width` | `number` | - | Optional dimension hint (debugging only) |
@@ -158,7 +158,7 @@ The shader samples both halves and composites them for transparent video playbac
 ## Testing
 
 ```tsx
-import { StackedAlphaVideo } from '@hypervideo/expo-native';
+import { StackedAlphaVideo } from '@hypervideo-dev/expo';
 
 // Remote URL
 <StackedAlphaVideo
@@ -185,11 +185,11 @@ import { StackedAlphaVideo } from '@hypervideo/expo-native';
 3. **No audio** - Designed for silent animated overlays
 4. **Requires rebuild** - Native module needs `npx expo run:ios`
 
-## Migration from @hypervideo/expo
+## Migration from @hypervideo-dev/expo
 
 ```diff
-- import { StackedAlphaVideo } from '@hypervideo/expo';
-+ import { StackedAlphaVideo } from '@hypervideo/expo-native';
+- import { StackedAlphaVideo } from '@hypervideo-dev/expo';
++ import { StackedAlphaVideo } from '@hypervideo-dev/expo';
 
 // Props are identical, no other changes needed
 ```

@@ -78,8 +78,8 @@ export class VideoEndpoints {
    *   chromaKey: { r: 0, g: 255, b: 0 },
    * });
    *
-   * // Stacked-alpha playback (requires @hypervideo/react)
-   * // npm install @hypervideo/react
+   * // Stacked-alpha playback (requires @hypervideo-dev/react)
+   * // npm install @hypervideo-dev/react
    * ```
    */
   async removeBackground(

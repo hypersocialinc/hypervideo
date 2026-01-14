@@ -1,4 +1,4 @@
-# @hypervideo/sdk
+# @hypervideo-dev/sdk
 
 Official TypeScript SDK for the [Hypervideo API](https://api.hypervideo.dev/docs) - media transformation made simple.
 
@@ -13,17 +13,17 @@ Official TypeScript SDK for the [Hypervideo API](https://api.hypervideo.dev/docs
 ## Installation
 
 ```bash
-npm install @hypervideo/sdk
+npm install @hypervideo-dev/sdk
 # or
-pnpm add @hypervideo/sdk
+pnpm add @hypervideo-dev/sdk
 # or
-yarn add @hypervideo/sdk
+yarn add @hypervideo-dev/sdk
 ```
 
 ## Quick Start
 
 ```typescript
-import { Hypervideo } from '@hypervideo/sdk';
+import { Hypervideo } from '@hypervideo-dev/sdk';
 
 const client = new Hypervideo({
   apiKey: 'your-api-key',
@@ -163,11 +163,11 @@ for (const output of result.outputs) {
 The `stacked-alpha` format requires a WebGL player for transparency rendering:
 
 ```bash
-npm install @hypervideo/react
+npm install @hypervideo-dev/react
 ```
 
 ```tsx
-import { StackedAlphaVideo } from '@hypervideo/react';
+import { StackedAlphaVideo } from '@hypervideo-dev/react';
 
 <StackedAlphaVideo
   src={stackedAlphaUrl}
@@ -198,7 +198,7 @@ const mime = Hypervideo.extractMimeType(dataUrl);
 ## Error Handling
 
 ```typescript
-import { Hypervideo, HypervideoError } from '@hypervideo/sdk';
+import { Hypervideo, HypervideoError } from '@hypervideo-dev/sdk';
 
 try {
   const result = await client.image.removeBackground({ file });
@@ -220,7 +220,7 @@ try {
 ## Node.js Example
 
 ```typescript
-import { Hypervideo } from '@hypervideo/sdk';
+import { Hypervideo } from '@hypervideo-dev/sdk';
 import { readFile, writeFile } from 'fs/promises';
 
 const client = new Hypervideo({
@@ -249,7 +249,7 @@ async function processImage() {
 ## Browser Example (React)
 
 ```tsx
-import { Hypervideo, HypervideoError } from '@hypervideo/sdk';
+import { Hypervideo, HypervideoError } from '@hypervideo-dev/sdk';
 import { useState } from 'react';
 
 const client = new Hypervideo({

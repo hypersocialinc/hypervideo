@@ -10,7 +10,7 @@ export interface StackedAlphaVideoProps {
   source?: { uri: string } | number;
 
   /**
-   * Video source as a string URL (alternative to `source` for API compatibility with @hypervideo/expo)
+   * Video source as a string URL (alternative to `source` for API compatibility with @hypervideo-dev/expo)
    */
   src?: string;
 
@@ -97,7 +97,7 @@ const NativeView = requireNativeViewManager("StackedAlphaVideo") as React.Compon
  * The Metal shader samples both halves and composites them in real-time.
  *
  * @example
- * // Using src prop (string URL) - compatible with @hypervideo/expo
+ * // Using src prop (string URL) - compatible with @hypervideo-dev/expo
  * <StackedAlphaVideo src="https://example.com/video.mp4" autoPlay loop muted />
  *
  * @example

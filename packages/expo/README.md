@@ -1,4 +1,4 @@
-# @hypervideo/expo-native
+# @hypervideo-dev/expo-native
 
 Native iOS Metal-based stacked-alpha video player for Expo/React Native.
 
@@ -12,7 +12,7 @@ Native iOS Metal-based stacked-alpha video player for Expo/React Native.
 
 ## Why Native?
 
-The standard `@hypervideo/expo` package uses Skia for cross-platform video rendering. However, under heavy usage (e.g., continuous voice sessions with frequent video playback), you may encounter `EXC_BREAKPOINT` crashes caused by `JsiSkImage` destructors running on the Hermes GC thread instead of the main/GPU thread.
+The standard `@hypervideo-dev/expo` package uses Skia for cross-platform video rendering. However, under heavy usage (e.g., continuous voice sessions with frequent video playback), you may encounter `EXC_BREAKPOINT` crashes caused by `JsiSkImage` destructors running on the Hermes GC thread instead of the main/GPU thread.
 
 This native package bypasses JSI entirely by using a pure Metal implementation, eliminating these GC-related crashes.
 
@@ -24,11 +24,11 @@ This native package bypasses JSI entirely by using a pure Metal implementation, 
 ## Installation
 
 ```bash
-npm install @hypervideo/expo-native
+npm install @hypervideo-dev/expo-native
 # or
-yarn add @hypervideo/expo-native
+yarn add @hypervideo-dev/expo-native
 # or
-pnpm add @hypervideo/expo-native
+pnpm add @hypervideo-dev/expo-native
 ```
 
 After installing, rebuild your iOS app:
@@ -42,7 +42,7 @@ npx expo run:ios
 ## Usage
 
 ```tsx
-import { StackedAlphaVideo } from '@hypervideo/expo-native';
+import { StackedAlphaVideo } from '@hypervideo-dev/expo-native';
 
 function MyComponent() {
   return (
@@ -70,7 +70,7 @@ function MyComponent() {
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `src` | `string` | - | Video source URL (string) - compatible with `@hypervideo/expo` |
+| `src` | `string` | - | Video source URL (string) - compatible with `@hypervideo-dev/expo` |
 | `source` | `{ uri: string } \| number` | - | Video source URL or local asset via `require()` |
 | `style` | `ViewStyle` | - | Style for the video container (controls sizing) |
 | `width` | `number` | - | Optional dimension hint (debugging only) |
@@ -94,14 +94,14 @@ This component expects **stacked-alpha** format videos:
 
 The Metal shader samples both halves and composites them in real-time for transparent video playback.
 
-## When to Use This vs @hypervideo/expo
+## When to Use This vs @hypervideo-dev/expo
 
 | Use Case | Recommended Package |
 |----------|---------------------|
-| Cross-platform (iOS + Android) | `@hypervideo/expo` |
-| Heavy iOS usage with Skia crashes | `@hypervideo/expo-native` |
-| Maximum iOS performance | `@hypervideo/expo-native` |
-| Android-only project | `@hypervideo/expo` |
+| Cross-platform (iOS + Android) | `@hypervideo-dev/expo` |
+| Heavy iOS usage with Skia crashes | `@hypervideo-dev/expo-native` |
+| Maximum iOS performance | `@hypervideo-dev/expo-native` |
+| Android-only project | `@hypervideo-dev/expo` |
 
 ## Example App
 

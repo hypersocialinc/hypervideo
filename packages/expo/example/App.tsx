@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { StyleSheet, Text, View, Pressable, Platform } from 'react-native';
-import { StackedAlphaVideo } from '@hypervideo/expo-native';
+import { StackedAlphaVideo } from '@hypervideo-dev/expo';
 
 // Sample stacked-alpha video URL
 const SAMPLE_VIDEO_URL = 'https://hip-gazelle-728.convex.cloud/api/storage/d50b1663-f1c9-4c3c-ae75-6037dedc172b';
@@ -16,7 +16,7 @@ export default function App() {
       <View style={styles.container}>
         <Text style={styles.title}>iOS Only</Text>
         <Text style={styles.subtitle}>
-          @hypervideo/expo-native currently only supports iOS.
+          @hypervideo-dev/expo currently only supports iOS.
         </Text>
         <Text style={styles.subtitle}>
           Run this example on an iOS simulator or device.

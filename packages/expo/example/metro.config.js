@@ -16,9 +16,9 @@ config.resolver.nodeModulesPaths = [
   path.resolve(packageRoot, 'node_modules'),
 ];
 
-// 3. Custom resolver to map @hypervideo/expo-native to the local package
+// 3. Custom resolver to map @hypervideo-dev/expo to the local package
 config.resolver.resolveRequest = (context, moduleName, platform) => {
-  if (moduleName === '@hypervideo/expo-native') {
+  if (moduleName === '@hypervideo-dev/expo') {
     // Resolve to the parent package's source
     return {
       filePath: path.resolve(packageRoot, 'src', 'index.ts'),

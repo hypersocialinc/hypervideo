@@ -1,4 +1,4 @@
-# @hypervideo/react
+# @hypervideo-dev/react
 
 WebGL-based transparent video player using the **stacked alpha** technique. Play transparent videos in any browser without format-specific codec support.
 
@@ -19,9 +19,9 @@ A WebGL shader samples both halves and composites them in real-time, producing t
 ## Installation
 
 ```bash
-npm install @hypervideo/react
+npm install @hypervideo-dev/react
 # or
-pnpm add @hypervideo/react
+pnpm add @hypervideo-dev/react
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ pnpm add @hypervideo/react
 ### Basic Component
 
 ```tsx
-import { StackedAlphaVideo } from '@hypervideo/react';
+import { StackedAlphaVideo } from '@hypervideo-dev/react';
 
 function MascotDisplay() {
   return (
@@ -49,7 +49,7 @@ function MascotDisplay() {
 ### With Custom Controls (Hook)
 
 ```tsx
-import { useStackedAlpha } from '@hypervideo/react';
+import { useStackedAlpha } from '@hypervideo-dev/react';
 
 function CustomVideoPlayer({ src }) {
   const {
@@ -102,7 +102,7 @@ import {
   getOrCreateResources,
   setupVertexAttributes,
   clearCache,
-} from '@hypervideo/react';
+} from '@hypervideo-dev/react';
 ```
 
 ## Props
@@ -135,7 +135,7 @@ For apps with multiple transparent videos or frequent video switching (like masc
 Wrap your app or video container with `StackedAlphaProvider` to cache compiled WebGL shaders across all video instances:
 
 ```tsx
-import { StackedAlphaProvider, StackedAlphaVideo } from '@hypervideo/react';
+import { StackedAlphaProvider, StackedAlphaVideo } from '@hypervideo-dev/react';
 
 function App() {
   return (
@@ -162,7 +162,7 @@ import {
   StackedAlphaProvider,
   StackedAlphaVideo,
   useVideoPreloader
-} from '@hypervideo/react';
+} from '@hypervideo-dev/react';
 
 function MascotPlayer() {
   const [currentEmote, setCurrentEmote] = useState('/happy.mp4');
@@ -333,7 +333,7 @@ The component automatically sets `crossOrigin="anonymous"` on the video element.
 Handle errors gracefully with the `onError` callback:
 
 ```tsx
-import { StackedAlphaVideo } from '@hypervideo/react';
+import { StackedAlphaVideo } from '@hypervideo-dev/react';
 
 function VideoWithFallback({ src, fallbackImage }) {
   const [hasError, setHasError] = useState(false);
@@ -581,7 +581,7 @@ For best performance:
 
 ## Related Links
 
-- [npm package](https://www.npmjs.com/package/@hypervideo/react)
+- [npm package](https://www.npmjs.com/package/@hypervideo-dev/react)
 - [Hypermedia Playground](https://hypermedia.hypersocial.com) - Create stacked alpha videos
 
 ## License

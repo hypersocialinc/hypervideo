@@ -1,4 +1,4 @@
-# @hypervideo/cli
+# @hypervideo-dev/cli
 
 Command-line interface for [Hypervideo API](https://api.hypervideo.dev/docs) - generate and play transparent videos, everywhere.
 
@@ -13,11 +13,11 @@ Command-line interface for [Hypervideo API](https://api.hypervideo.dev/docs) - g
 ## Installation
 
 ```bash
-npm install -g @hypervideo/cli
+npm install -g @hypervideo-dev/cli
 # or
-pnpm add -g @hypervideo/cli
+pnpm add -g @hypervideo-dev/cli
 # or
-yarn global add @hypervideo/cli
+yarn global add @hypervideo-dev/cli
 ```
 
 ## Quick Start
@@ -390,7 +390,7 @@ find . -name "*.jpg" -exec hypervideo resize {} -w 800 \;
 ## Related Packages
 
 - [@hypervideo-dev/sdk](https://www.npmjs.com/package/@hypervideo-dev/sdk) - TypeScript SDK
-- [@hypervideo/react](https://www.npmjs.com/package/@hypervideo/react) - React components (including WebGL video player)
+- [@hypervideo-dev/react](https://www.npmjs.com/package/@hypervideo-dev/react) - React components (including WebGL video player)
 
 ## API Documentation
 

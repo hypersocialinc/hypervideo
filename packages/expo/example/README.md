@@ -1,4 +1,4 @@
-# @hypervideo/expo-native Example
+# @hypervideo-dev/expo Example
 
 This is a minimal Expo app for testing the native iOS Metal-based stacked-alpha video player.
 

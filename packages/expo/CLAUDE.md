@@ -1,4 +1,4 @@
-# @hypervideo/expo-native - Claude Context
+# @hypervideo-dev/expo - Claude Context
 
 ## Package Overview
 
@@ -56,7 +56,7 @@ npx expo run:ios
 ### Metro Configuration
 The example app has a custom `metro.config.js` that:
 1. Watches the parent package for hot reloading
-2. Resolves `@hypervideo/expo-native` to local source via custom resolver
+2. Resolves `@hypervideo-dev/expo` to local source via custom resolver
 
 ### Expo MCP Debugging
 Enable Expo's MCP server for debugging:
@@ -71,7 +71,7 @@ EXPO_UNSTABLE_MCP_SERVER=1 npx expo start
 **Cause**: Native module not linked properly.
 **Fix**: Rebuild iOS app with `npx expo run:ios`
 
-### "Unable to resolve @hypervideo/expo-native"
+### "Unable to resolve @hypervideo-dev/expo"
 **Cause**: Metro can't resolve local `file:..` dependency.
 **Fix**: Ensure `metro.config.js` exists with custom resolver (see example app)
 

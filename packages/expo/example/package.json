@@ -9,7 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@hypervideo/expo-native": "file:..",
+    "@hypervideo-dev/expo": "file:..",
     "expo": "~54.0.31",
     "expo-linking": "^8.0.11",
     "expo-mcp": "^0.2.3",

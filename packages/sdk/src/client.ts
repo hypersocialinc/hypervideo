@@ -12,7 +12,7 @@ const DEFAULT_TIMEOUT = 30000;
  *
  * @example
  * ```ts
- * import { Hypervideo } from '@hypervideo/sdk';
+ * import { Hypervideo } from '@hypervideo-dev/sdk';
  *
  * const client = new Hypervideo({
  *   apiKey: 'your-api-key',

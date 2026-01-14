@@ -167,9 +167,9 @@ Or use our web playground at [app.hypervideo.dev](https://app.hypervideo.dev).
 
 ## Related Packages
 
-- [@hypervideo/react](https://www.npmjs.com/package/@hypervideo/react) - React/Next.js WebGL player
-- [@hypervideo/expo](https://www.npmjs.com/package/@hypervideo/expo) - Expo/React Native Skia player
-- [@hypervideo/expo-native](https://www.npmjs.com/package/@hypervideo/expo-native) - Expo native Metal player
+- [@hypervideo-dev/react](https://www.npmjs.com/package/@hypervideo-dev/react) - React/Next.js WebGL player
+- [@hypervideo-dev/expo](https://www.npmjs.com/package/@hypervideo-dev/expo) - Expo/React Native Skia player
+- [@hypervideo-dev/expo-native](https://www.npmjs.com/package/@hypervideo-dev/expo-native) - Expo native Metal player
 
 ## License
 
