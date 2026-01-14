@@ -114,7 +114,9 @@ export function requireApiKey(): string {
   const apiKey = getApiKey();
   if (!apiKey) {
     throw new Error(
-      `No API key found. Set HYPERVIDEO_API_KEY environment variable or run:\n` +
+      `No API key found. Authenticate with:\n` +
+      `  hypervideo login\n\n` +
+      `Or set manually:\n` +
       `  hypervideo config set <api-key>`
     );
   }

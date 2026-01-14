@@ -1,6 +1,7 @@
 import { Command } from 'commander';
 import { getApiKey, getBaseUrl, getConfigPath, setApiKey, maskApiKey } from './config.js';
 import { formatError } from './utils.js';
+import { createLoginCommand } from './commands/login.js';
 import { createBgRemoveCommand } from './commands/bg-remove.js';
 import { createResizeCommand } from './commands/resize.js';
 import { createThumbnailCommand } from './commands/thumbnail.js';
@@ -76,6 +77,9 @@ configCmd
       process.exit(1);
     }
   });
+
+// Auth command
+program.addCommand(createLoginCommand());
 
 // Image commands
 program.addCommand(createBgRemoveCommand());

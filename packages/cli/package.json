@@ -1,6 +1,6 @@
 {
   "name": "@hypervideo-dev/cli",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "type": "module",
   "description": "CLI for Hypervideo media transformations",
   "bin": {
@@ -37,10 +37,14 @@
   "engines": {
     "node": ">=18"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
-    "@hypervideo-dev/sdk": "workspace:*",
+    "@hypervideo-dev/sdk": "^0.1.1",
     "chalk": "^5.6.2",
     "commander": "^12.0.0",
+    "open": "^11.0.0",
     "ora": "^9.0.0"
   },
   "devDependencies": {
