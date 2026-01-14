@@ -17,7 +17,7 @@ Hypervideo provides:
 
 ---
 
-## Packages
+## SDKs & Tools
 
 ### @hypervideo-dev/sdk
 TypeScript SDK for the Hypervideo API.
@@ -29,7 +29,7 @@ npm install @hypervideo-dev/sdk
 ```typescript
 import { Hypervideo } from '@hypervideo-dev/sdk';
 
-const client = new Hypervideo({ apiKey: 'hv_...' });
+const client = new Hypervideo({ apiKey: 'hc_...' });
 
 // Remove background from image
 const image = await client.image.removeBackground({
@@ -59,13 +59,17 @@ hypervideo video remove-bg input.mp4 -o output.webm
 hypervideo image remove-bg input.png -o output.png
 
 # Set API key
-hypervideo config set apiKey hv_your_key
+hypervideo config set apiKey hc_your_key
 ```
 
 ---
 
+## Players
+
+Cross-platform transparent video players for React, Expo, and native iOS/macOS.
+
 ### @hypervideo-dev/react
-WebGL player for transparent videos in React/Next.js.
+WebGL player for React/Next.js apps.
 
 ```bash
 npm install @hypervideo-dev/react
