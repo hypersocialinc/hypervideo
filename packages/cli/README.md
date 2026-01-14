@@ -23,7 +23,10 @@ yarn global add @hypervideo/cli
 ## Quick Start
 
 ```bash
-# Set your API key (stored in ~/.hypervideo/config.json)
+# Authenticate via browser (recommended)
+hypervideo login
+
+# Or set API key manually
 hypervideo config set YOUR_API_KEY
 
 # Remove background from an image
@@ -45,11 +48,31 @@ hypervideo video:bg-remove animation.mp4
 hypervideo detect-color image.png
 ```
 
-## Configuration
+## Authentication
 
-### Setting API Key
+The CLI uses your Hypervideo API key for authentication. Choose one of these methods:
 
-The CLI uses your Hypervideo API key for authentication. Set it using one of these methods:
+### Interactive Browser Login (Recommended)
+
+```bash
+# Open browser to authenticate and retrieve API key automatically
+hypervideo login
+```
+
+This command will:
+1. Start a local server on your machine
+2. Open your browser to the Hypervideo playground
+3. Automatically retrieve your API key after sign-in
+4. Save the key to `~/.hypervideo/config.json`
+
+### Log Out
+
+```bash
+# Remove saved API key
+hypervideo logout
+```
+
+### Manual Configuration
 
 **Option 1: Environment variable** (recommended for CI/CD)
 ```bash
@@ -60,6 +83,8 @@ export HYPERVIDEO_API_KEY=your-api-key
 ```bash
 hypervideo config set your-api-key
 ```
+
+## Configuration
 
 ### Config Commands
 
