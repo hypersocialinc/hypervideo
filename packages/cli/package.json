@@ -1,6 +1,6 @@
 {
   "name": "@hypervideo-dev/cli",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "type": "module",
   "description": "CLI for Hypervideo media transformations",
   "bin": {

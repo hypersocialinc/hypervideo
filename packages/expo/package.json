@@ -1,6 +1,6 @@
 {
   "name": "@hypervideo-dev/expo",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Native iOS Metal-based stacked-alpha transparent video player - fixes Skia GC crashes",
   "main": "./src/index.ts",
   "module": "./dist/index.mjs",
