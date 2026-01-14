@@ -102,9 +102,10 @@ function startLocalServer(): Promise<{
                     max-width: 400px;
                     padding: 40px;
                   }
-                  .icon {
-                    font-size: 64px;
-                    margin-bottom: 20px;
+                  .mascot {
+                    width: 200px;
+                    height: 200px;
+                    margin: 0 auto 20px;
                   }
                   h1 {
                     font-size: 24px;
@@ -120,7 +121,9 @@ function startLocalServer(): Promise<{
               </head>
               <body>
                 <div class="container">
-                  <div class="icon">✅</div>
+                  <video class="mascot" autoplay loop muted playsinline>
+                    <source src="https://www.hypervideo.dev/mascot/hv-welcome.webm" type="video/webm">
+                  </video>
                   <h1>Authentication Successful!</h1>
                   <p>Your CLI has been authenticated. You can close this window and return to your terminal.</p>
                 </div>
