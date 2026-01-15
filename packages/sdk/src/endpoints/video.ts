@@ -6,6 +6,8 @@ import type { ResolvedConfig } from '../types/common';
 import type {
   VideoRemoveBackgroundOptions,
   VideoRemoveBackgroundResponse,
+  VideoRemoveBackgroundAIOptions,
+  VideoRemoveBackgroundAIResponse,
 } from '../types/video';
 
 /**
@@ -112,6 +114,102 @@ export class VideoEndpoints {
 
     return request<VideoRemoveBackgroundResponse>(
       `${this.config.baseUrl}/api/v1/video/remove-background`,
+      {
+        method: 'POST',
+        headers: this.headers,
+        body: formData,
+        timeout,
+      }
+    );
+  }
+
+  /**
+   * Remove background from a video using AI (FAL BiRefNet v2)
+   *
+   * Uses advanced AI segmentation for high-quality edge detection.
+   * Works on any background, not just solid colors.
+   *
+   * Supports multiple output formats:
+   * - `webp`: Animated WebP with alpha, small file, all browsers (default)
+   * - `webm`: VP9 codec with alpha, small file, Chrome/Firefox/Edge
+   * - `apng`: Animated PNG, larger file, all browsers
+   * - `stacked-alpha`: H.264 with stacked RGB+Alpha, requires WebGL player
+   *
+   * @param options - AI background removal options (file or url required)
+   * @returns Promise resolving to video with transparent background
+   * @throws {HypervideoError} If input validation fails or API request fails
+   *
+   * @example
+   * ```ts
+   * // Default (WebP format)
+   * const result = await client.video.removeBackgroundAI({
+   *   file: videoFile,
+   *   fps: 8,  // Lower FPS = faster processing
+   * });
+   *
+   * // Multiple formats
+   * const result = await client.video.removeBackgroundAI({
+   *   file: videoFile,
+   *   formats: ['webp', 'webm'],
+   *   quality: 60,
+   * });
+   *
+   * // With resize for smaller output
+   * const result = await client.video.removeBackgroundAI({
+   *   file: videoFile,
+   *   size: 512,  // 512x512 output
+   *   fps: 8,
+   * });
+   * ```
+   */
+  async removeBackgroundAI(
+    options: VideoRemoveBackgroundAIOptions
+  ): Promise<VideoRemoveBackgroundAIResponse> {
+    validateMediaInput(options, 'video.removeBackgroundAI');
+
+    if (options.fps !== undefined) {
+      validateFps(options.fps);
+    }
+    if (options.quality !== undefined && (options.quality < 0 || options.quality > 100)) {
+      throw new HypervideoError(
+        'INVALID_QUALITY',
+        'quality must be between 0 and 100',
+        undefined,
+        { quality: options.quality }
+      );
+    }
+    if (options.size !== undefined && (options.size < 64 || options.size > 2048)) {
+      throw new HypervideoError(
+        'INVALID_SIZE',
+        'size must be between 64 and 2048',
+        undefined,
+        { size: options.size }
+      );
+    }
+    if (options.batchSize !== undefined && (options.batchSize < 1 || options.batchSize > 200)) {
+      throw new HypervideoError(
+        'INVALID_BATCH_SIZE',
+        'batchSize must be between 1 and 200',
+        undefined,
+        { batchSize: options.batchSize }
+      );
+    }
+    if (options.format !== undefined && options.formats !== undefined) {
+      throw new HypervideoError(
+        'INVALID_REQUEST',
+        "Cannot specify both 'format' and 'formats'. Use 'format' for single output or 'formats' for multiple outputs.",
+        undefined,
+        { format: options.format, formats: options.formats }
+      );
+    }
+
+    const formData = buildFormData(options);
+
+    // AI processing can take longer, use extended timeout (minimum 180s)
+    const timeout = Math.max(this.config.timeout, 180000);
+
+    return request<VideoRemoveBackgroundAIResponse>(
+      `${this.config.baseUrl}/api/v1/video/remove-background-ai`,
       {
         method: 'POST',
         headers: this.headers,
