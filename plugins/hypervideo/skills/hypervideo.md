@@ -253,3 +253,44 @@ export async function POST(req: Request) {
   }
 }
 ```
+
+---
+
+## Safari Performance Optimization
+
+Safari has known performance issues with WebGL video textures. The `@hypervideo-dev/react` player includes several optimizations:
+
+### Built-in Optimizations
+- **requestVideoFrameCallback**: Only renders when a new video frame is available (24fps video = 24 renders/sec instead of 60)
+- **IntersectionObserver**: Automatically pauses video and stops rendering when scrolled off-screen
+- **WebGL2 with fallback**: Uses WebGL2 when available for better performance
+
+### Video Size Recommendations
+
+For optimal Safari performance, use appropriately sized videos:
+
+| Display Size | Recommended Video | Expected CPU |
+|--------------|-------------------|--------------|
+| < 200px | 192x384 stacked | ~20-30% |
+| 200-400px | 384x768 stacked | ~40-50% |
+| 400-600px | 576x1152 stacked | ~50-60% |
+| > 600px | 768x1536 stacked | ~60-70% |
+
+### Creating Optimized Videos
+
+Use ffmpeg to resize stacked-alpha videos:
+
+```bash
+# Resize to 384x768 (for 384x384 display)
+ffmpeg -i input-stacked.mp4 -vf "scale=384:768" -c:v libx264 -preset slow -crf 18 output-384.mp4
+
+# Resize to 192x384 (for small thumbnails)
+ffmpeg -i input-stacked.mp4 -vf "scale=192:384" -c:v libx264 -preset slow -crf 18 output-192.mp4
+```
+
+### Best Practices
+
+1. **Size videos for display**: Don't use 768px video for a 200px display
+2. **Multiple sizes**: Create 2-3 size variants for responsive designs
+3. **Scroll behavior**: The player automatically pauses off-screen videos - no action needed
+4. **Preloading**: Use `useVideoPreloader` hook for instant playback without network delay

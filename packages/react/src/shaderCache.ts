@@ -2,6 +2,9 @@
 
 import { vertexShaderSource, fragmentShaderSource } from './shaders';
 
+// Support both WebGL1 and WebGL2 contexts
+type WebGLContext = WebGLRenderingContext | WebGL2RenderingContext;
+
 export interface CachedResources {
   program: WebGLProgram;
   positionBuffer: WebGLBuffer;
@@ -14,13 +17,13 @@ export interface CachedResources {
  * WeakMap cache for WebGL resources keyed by GL context.
  * Using WeakMap ensures resources are garbage collected when the GL context is destroyed.
  */
-const resourceCache = new WeakMap<WebGLRenderingContext, CachedResources>();
+const resourceCache = new WeakMap<WebGLContext, CachedResources>();
 
 /**
  * Compiles a shader and returns it, or null on failure.
  */
 function compileShader(
-  gl: WebGLRenderingContext,
+  gl: WebGLContext,
   type: number,
   source: string
 ): WebGLShader | null {
@@ -48,7 +51,7 @@ function compileShader(
  * reducing initialization time from ~100-150ms to ~5ms for subsequent videos.
  */
 export function getOrCreateResources(
-  gl: WebGLRenderingContext
+  gl: WebGLContext
 ): CachedResources | null {
   // Check cache first
   const cached = resourceCache.get(gl);
@@ -135,7 +138,7 @@ export function getOrCreateResources(
  * Call this after getting resources and before rendering.
  */
 export function setupVertexAttributes(
-  gl: WebGLRenderingContext,
+  gl: WebGLContext,
   resources: CachedResources
 ): void {
   gl.useProgram(resources.program);
@@ -155,6 +158,6 @@ export function setupVertexAttributes(
  * Clears cached resources for a specific GL context.
  * Useful when cleaning up or if you need to force recompilation.
  */
-export function clearCache(gl: WebGLRenderingContext): void {
+export function clearCache(gl: WebGLContext): void {
   resourceCache.delete(gl);
 }
