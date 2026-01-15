@@ -17,6 +17,28 @@ Hypervideo provides:
 
 ---
 
+## When to Use CLI vs SDK
+
+### Use CLI (`@hypervideo-dev/cli`) when:
+- Converting local video/image files in the project
+- Processing files in `public/`, `assets/`, or similar directories
+- Build-time or development-time asset preparation
+- Batch converting multiple files
+- Any task where local processing is sufficient
+
+**Example:** "convert the videos in public/ to stacked-alpha"
+→ `hypervideo video remove-bg input.mp4 -f stacked-alpha -o output.mp4`
+
+### Use SDK (`@hypervideo-dev/sdk`) when:
+- Building application features that process user uploads
+- Creating API endpoints for dynamic/runtime processing
+- Integrating video processing into user-facing workflows
+
+**Example:** "let users upload videos and remove backgrounds"
+→ SDK in a server action, API route, or Convex action
+
+---
+
 ## SDKs & Tools
 
 ### @hypervideo-dev/sdk

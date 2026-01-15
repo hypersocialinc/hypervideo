@@ -13,17 +13,26 @@ arguments:
 
 Remove background from an image or video file using the Hypervideo CLI.
 
+## Pre-flight Check (REQUIRED)
+
+**Check if CLI is installed FIRST:**
+```bash
+hypervideo --version
+```
+
+If NOT installed:
+- Inform user: "Hypervideo CLI is not installed. It's required for background removal."
+- Ask user if they want to install it
+- If yes, install and configure:
+  ```bash
+  npm install -g @hypervideo-dev/cli
+  hypervideo config set apiKey hv_your_key_here
+  ```
+- Get API key at: https://app.hypervideo.dev
+
+If already installed, proceed to instructions.
+
 ## Instructions
-
-1. **Check if CLI is installed:**
-   ```bash
-   hypervideo --version
-   ```
-
-   If not installed:
-   ```bash
-   npm install -g @hypervideo-dev/cli
-   ```
 
 2. **Detect file type** from the input path extension:
    - Image: `.png`, `.jpg`, `.jpeg`, `.webp`
@@ -54,9 +63,8 @@ Options:
    - WebM only works in Chrome/Firefox/Edge
    - Stacked-alpha works everywhere with Hypervideo players
 
-5. **Check for API key** if command fails with auth error:
+5. **If command fails with auth error**, the API key may not be configured:
    ```bash
    hypervideo config set apiKey hv_your_key_here
    ```
-
    Get API key at: https://app.hypervideo.dev
