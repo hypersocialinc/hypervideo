@@ -32,11 +32,14 @@ export type VideoFormatArray = [VideoFormat, ...VideoFormat[]];
  *
  * Provide either `file` or `url` as input (mutually exclusive).
  * Use `format` for single output or `formats` for multiple outputs.
- * By default, auto-detects background color from the first frame.
- * Use `chromaKey` for manual color selection (e.g., green screen).
+ *
+ * **Smart Processing:**
+ * - `webp` format: Uses AI for 5x smaller files (~1.5MB vs 8MB)
+ * - Other formats: Uses chromakey for faster processing (~10s vs 60s)
+ * - Manual `chromaKey`: Always uses chromakey (for green/blue screen)
  */
 export type VideoRemoveBackgroundOptions = MediaInput & {
-  /** Background removal sensitivity 0-100 (default: 20) */
+  /** Background removal sensitivity 0-100 (default: 20). Used for chromakey processing. */
   tolerance?: number;
   /** Frames per second for processing 1-60 (default: 24) */
   fps?: number;
@@ -44,8 +47,10 @@ export type VideoRemoveBackgroundOptions = MediaInput & {
   format?: VideoFormat;
   /** Multiple output formats (at least one required if specified) */
   formats?: VideoFormatArray;
-  /** Manual chromakey color (e.g., green screen) */
+  /** Manual chromakey color (e.g., green screen). Forces chromakey processing. */
   chromaKey?: RGB;
+  /** WebP quality 0-100 (default: 60, lower = smaller file). Only used for webp format. */
+  quality?: number;
 };
 
 export interface VideoOutput {
@@ -84,18 +89,20 @@ export interface VideoRemoveBackgroundResponse {
 
 // ============================================================================
 // Remove Video Background with AI (BiRefNet v2)
+// DEPRECATED: Use removeBackground() with format='webp' instead
 // ============================================================================
 
 /**
  * Non-empty array of AI video formats
+ * @deprecated Use VideoFormatArray instead. The unified endpoint handles routing.
  */
 export type AIVideoFormatArray = [AIVideoFormat, ...AIVideoFormat[]];
 
 /**
  * Options for AI-powered video background removal
  *
- * Uses FAL BiRefNet v2 for high-quality frame-by-frame segmentation.
- * Better edge detection than chromakey, works on any background.
+ * @deprecated Use VideoRemoveBackgroundOptions with format='webp' instead.
+ * The unified removeBackground() endpoint automatically uses AI for webp format.
  */
 export type VideoRemoveBackgroundAIOptions = MediaInput & {
   /** WebP/WebM quality 0-100 (default: 60, lower = smaller file) */

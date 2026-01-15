@@ -39,12 +39,15 @@ export class VideoEndpoints {
   /**
    * Remove background from a video
    *
-   * Auto-detects the background color from the first frame, or use chromaKey for manual selection.
+   * **Smart Processing:**
+   * - `webp` format: Uses AI for 5x smaller files (~1.5MB vs 8MB)
+   * - Other formats: Uses chromakey for faster processing (~10s vs 60s)
+   * - Manual `chromaKey`: Always uses chromakey (for green/blue screen)
    *
    * Supports multiple output formats:
-   * - `webm`: VP9 codec with alpha, small file, Chrome/Firefox/Edge (default)
-   * - `stacked-alpha`: H.264 with stacked RGB+Alpha, requires WebGL player, universal support (default)
-   * - `webp`: Animated WebP with alpha, very small, Safari compatible
+   * - `webp`: Animated WebP with alpha, smallest files (AI), all browsers
+   * - `webm`: VP9 codec with alpha, fast processing, Chrome/Firefox/Edge
+   * - `stacked-alpha`: H.264 with stacked RGB+Alpha, fast, universal with WebGL player
    * - `mov`: ProRes 4444 codec, large file, all browsers
    *
    * Default formats: `['webm', 'stacked-alpha']`
@@ -55,33 +58,32 @@ export class VideoEndpoints {
    *
    * @example
    * ```ts
-   * // Default formats (webm + stacked-alpha)
+   * // WebP format (smallest files, uses AI internally)
+   * const result = await client.video.removeBackground({
+   *   file: videoFile,
+   *   format: 'webp',
+   *   quality: 60,  // Lower = smaller file
+   * });
+   *
+   * // Default formats (webm + stacked-alpha, fast chromakey)
    * const result = await client.video.removeBackground({
    *   file: videoFile,
    *   tolerance: 20,
    * });
    *
-   * // Single format
+   * // Multiple formats (webp uses AI, others use chromakey)
    * const result = await client.video.removeBackground({
    *   file: videoFile,
-   *   format: 'webm',
+   *   formats: ['webp', 'webm', 'stacked-alpha'],
+   *   quality: 60,
    * });
    *
-   * // Multiple formats
-   * const result = await client.video.removeBackground({
-   *   file: videoFile,
-   *   formats: ['webm', 'stacked-alpha', 'webp'],
-   * });
-   * // result.outputs contains all formats
-   *
-   * // Manual green screen
+   * // Manual green screen (forces chromakey even for webp)
    * const result = await client.video.removeBackground({
    *   file: greenScreenVideo,
+   *   format: 'webp',
    *   chromaKey: { r: 0, g: 255, b: 0 },
    * });
-   *
-   * // Stacked-alpha playback (requires @hypervideo-dev/react)
-   * // npm install @hypervideo-dev/react
    * ```
    */
   async removeBackground(
@@ -98,6 +100,14 @@ export class VideoEndpoints {
     if (options.chromaKey !== undefined) {
       validateRGB(options.chromaKey);
     }
+    if (options.quality !== undefined && (options.quality < 0 || options.quality > 100)) {
+      throw new HypervideoError(
+        'INVALID_QUALITY',
+        'quality must be between 0 and 100',
+        undefined,
+        { quality: options.quality }
+      );
+    }
     if (options.format !== undefined && options.formats !== undefined) {
       throw new HypervideoError(
         'INVALID_REQUEST',
@@ -109,8 +119,9 @@ export class VideoEndpoints {
 
     const formData = buildFormData(options);
 
-    // Video processing can take longer, use extended timeout (minimum 120s)
-    const timeout = Math.max(this.config.timeout, 120000);
+    // Video processing can take longer, use extended timeout
+    // AI processing needs more time, so use 180s minimum
+    const timeout = Math.max(this.config.timeout, 180000);
 
     return request<VideoRemoveBackgroundResponse>(
       `${this.config.baseUrl}/api/v1/video/remove-background`,
@@ -126,39 +137,19 @@ export class VideoEndpoints {
   /**
    * Remove background from a video using AI (FAL BiRefNet v2)
    *
-   * Uses advanced AI segmentation for high-quality edge detection.
-   * Works on any background, not just solid colors.
-   *
-   * Supports multiple output formats:
-   * - `webp`: Animated WebP with alpha, small file, all browsers (default)
-   * - `webm`: VP9 codec with alpha, small file, Chrome/Firefox/Edge
-   * - `apng`: Animated PNG, larger file, all browsers
-   * - `stacked-alpha`: H.264 with stacked RGB+Alpha, requires WebGL player
-   *
-   * @param options - AI background removal options (file or url required)
-   * @returns Promise resolving to video with transparent background
-   * @throws {HypervideoError} If input validation fails or API request fails
+   * @deprecated Use `removeBackground()` with `format: 'webp'` instead.
+   * The unified endpoint automatically uses AI processing for WebP format.
    *
    * @example
    * ```ts
-   * // Default (WebP format)
-   * const result = await client.video.removeBackgroundAI({
-   *   file: videoFile,
-   *   fps: 8,  // Lower FPS = faster processing
-   * });
+   * // Instead of:
+   * const result = await client.video.removeBackgroundAI({ file, fps: 8 });
    *
-   * // Multiple formats
-   * const result = await client.video.removeBackgroundAI({
-   *   file: videoFile,
-   *   formats: ['webp', 'webm'],
+   * // Use:
+   * const result = await client.video.removeBackground({
+   *   file,
+   *   format: 'webp',
    *   quality: 60,
-   * });
-   *
-   * // With resize for smaller output
-   * const result = await client.video.removeBackgroundAI({
-   *   file: videoFile,
-   *   size: 512,  // 512x512 output
-   *   fps: 8,
    * });
    * ```
    */

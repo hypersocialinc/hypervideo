@@ -51,17 +51,27 @@ Options:
 
 ### For Videos
 ```bash
-hypervideo video remove-bg {{input}} -o {{output}} -f stacked-alpha
+hypervideo video remove-bg {{input}} -o {{output}} -f webp
 ```
 
-Options:
-- `-f, --format <format>`: Output format (webm, stacked-alpha, mov)
-- `-t, --tolerance <number>`: Background sensitivity
-- `-c, --chroma-key <color>`: Manual color for green/blue screen
+**Format options:**
+| Format | Size | Speed | Browser Support |
+|--------|------|-------|-----------------|
+| `webp` | Smallest (~1.5MB) | ~60s | All browsers |
+| `webm` | Small (~2MB) | ~10s | Chrome/Firefox/Edge |
+| `stacked-alpha` | Small (~1MB) | ~10s | All (with WebGL player) |
+| `mov` | Large (~60MB) | ~10s | All browsers |
 
-4. **Recommend stacked-alpha format** for videos if user plans to play in browser:
-   - WebM only works in Chrome/Firefox/Edge
-   - Stacked-alpha works everywhere with Hypervideo players
+Options:
+- `-f, --format <format>`: Output format (webp, webm, stacked-alpha, mov)
+- `-q, --quality <number>`: WebP quality 0-100 (default: 60, lower = smaller)
+- `-t, --tolerance <number>`: Background sensitivity (for webm/mov/stacked)
+- `-c, --chroma-key <color>`: Manual color for green/blue screen (forces chromakey)
+
+4. **Format recommendations:**
+   - Use `webp` for smallest file size (uses AI processing internally)
+   - Use `stacked-alpha` for fastest processing + universal playback
+   - Use `webm` for fast processing + native browser support
 
 5. **If command fails with auth error**, the API key may not be configured:
    ```bash

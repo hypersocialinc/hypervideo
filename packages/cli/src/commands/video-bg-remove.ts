@@ -32,12 +32,14 @@ export function createVideoBgRemoveCommand(): Command {
     .option('-f, --format <format>', `Output format: ${validFormats.join(', ')}`, 'webm')
     .option('-t, --tolerance <number>', 'Background detection tolerance (0-100)', '20')
     .option('--fps <number>', 'Frames per second (1-60)', '24')
+    .option('-q, --quality <number>', 'WebP quality 0-100 (default: 60, lower = smaller file)')
     .option('-c, --chroma-key <hex>', 'Manual background color in hex (e.g., #00FF00)')
     .action(async (input: string, options: {
       output?: string;
       format: string;
       tolerance: string;
       fps: string;
+      quality?: string;
       chromaKey?: string;
     }) => {
       // Validate input file exists
@@ -67,6 +69,16 @@ export function createVideoBgRemoveCommand(): Command {
       if (isNaN(fps) || fps < 1 || fps > 60) {
         error('FPS must be a number between 1 and 60');
         process.exit(1);
+      }
+
+      // Parse quality (for webp format)
+      let quality: number | undefined;
+      if (options.quality) {
+        quality = parseInt(options.quality, 10);
+        if (isNaN(quality) || quality < 0 || quality > 100) {
+          error('Quality must be a number between 0 and 100');
+          process.exit(1);
+        }
       }
 
       // Parse chroma key if provided
@@ -106,6 +118,7 @@ export function createVideoBgRemoveCommand(): Command {
           tolerance,
           fps,
           chromaKey,
+          quality,
         });
 
         const duration = Date.now() - startTime;
