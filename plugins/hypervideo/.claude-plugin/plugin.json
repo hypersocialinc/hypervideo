@@ -1,6 +1,6 @@
 {
   "name": "hypervideo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Hypervideo SDK, CLI, API, and player integration for transparent video workflows",
   "author": {
     "name": "HyperSocial",

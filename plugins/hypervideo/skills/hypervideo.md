@@ -59,10 +59,11 @@ const image = await client.image.removeBackground({
   tolerance: 20,
 });
 
-// Remove background from video
+// Remove background from video (webp = smallest, stacked-alpha = fastest playback)
 const video = await client.video.removeBackground({
   file: videoFile,
-  formats: ['webm', 'stacked-alpha'],
+  format: 'webp',      // or 'stacked-alpha', 'webm'
+  quality: 60,         // for webp (lower = smaller)
 });
 ```
 
@@ -169,13 +170,20 @@ Parameters:
 - `chromaKey`: Manual color `{ r, g, b }` for green/blue screen
 
 ### POST /api/v1/video/remove-background
-Remove background from video. Returns WebM or stacked-alpha MP4.
+Remove background from video with smart processing.
+
+**Smart Processing:**
+- `webp` format → Uses AI (smallest files, ~1.5MB)
+- Other formats → Uses chromakey (fastest, ~10s)
+- Manual `chromaKey` → Forces chromakey (for green/blue screen)
 
 Parameters:
 - `file` or `url`: Video input
-- `tolerance` (0-100): Background removal sensitivity
-- `formats`: Array of output formats (`webm`, `stacked-alpha`, `mov`)
-- `chromaKey`: Manual color for green/blue screen
+- `format`: Single output format (`webp`, `webm`, `stacked-alpha`, `mov`)
+- `formats`: Array of output formats
+- `tolerance` (0-100): Background removal sensitivity (chromakey)
+- `quality` (0-100): WebP quality (default: 60, lower = smaller)
+- `chromaKey`: Manual color `{ r, g, b }` for green/blue screen
 
 ### POST /api/v1/image/detect-background-color
 Detect the dominant background color from image edges.
@@ -184,13 +192,16 @@ Detect the dominant background color from image edges.
 
 ## Output Formats
 
-| Format | Codec | Use Case |
-|--------|-------|----------|
-| **webm** | VP9 with alpha | Chrome, Firefox, Edge |
-| **stacked-alpha** | H.264 MP4 | Works everywhere with Hypervideo players |
-| **mov** | ProRes 4444 | Safari/iOS native, Final Cut Pro |
+| Format | Size | Speed | Use Case |
+|--------|------|-------|----------|
+| **webp** | ~1.5MB | ~60s | Smallest files, all browsers, `<img>` tag |
+| **webm** | ~2MB | ~10s | Chrome, Firefox, Edge |
+| **stacked-alpha** | ~8MB | ~10s | Universal with Hypervideo WebGL players |
+| **mov** | ~60MB | ~10s | Safari/iOS native, Final Cut Pro |
 
-**Recommendation:** Use `stacked-alpha` format with `@hypervideo-dev/react` or `@hypervideo-dev/expo` for maximum compatibility.
+**Recommendations:**
+- Use `webp` for smallest file size (uses AI processing)
+- Use `stacked-alpha` with `@hypervideo-dev/react` or `@hypervideo-dev/expo` for smooth 60fps playback
 
 ---
 
