@@ -71,6 +71,8 @@ export interface StackedAlphaVideoProps {
   onError?: (error: Error) => void;
   /** Callback when video is ready to play */
   onCanPlay?: () => void;
+  /** Pause playback and rendering when the canvas scrolls off-screen */
+  pauseWhenOffscreen?: boolean;
   /**
    * Optional preloaded video element from useVideoPreloader.
    * When provided, uses this element instead of creating a new one,
@@ -114,6 +116,7 @@ export function StackedAlphaVideo({
   onEnded,
   onError,
   onCanPlay,
+  pauseWhenOffscreen = true,
   videoElement,
 }: StackedAlphaVideoProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -290,7 +293,7 @@ export function StackedAlphaVideo({
     if (!gl || !video || !texture) return;
 
     // Skip rendering if context is lost or video is not visible
-    if (contextLostRef.current || !isVisibleRef.current) return;
+    if (contextLostRef.current || (pauseWhenOffscreen && !isVisibleRef.current)) return;
 
     // Need video data to render (readyState >= 2 means HAVE_CURRENT_DATA)
     if (video.readyState < 2) return;
@@ -410,6 +413,11 @@ export function StackedAlphaVideo({
 
   // Handle visibility changes from IntersectionObserver
   const handleVisibilityChange = useCallback((isVisible: boolean) => {
+    if (!pauseWhenOffscreen) {
+      isVisibleRef.current = true;
+      return;
+    }
+
     isVisibleRef.current = isVisible;
     const video = videoRef.current;
 
@@ -430,7 +438,7 @@ export function StackedAlphaVideo({
       }
       stopRenderLoop();
     }
-  }, [stopRenderLoop]);
+  }, [pauseWhenOffscreen, stopRenderLoop]);
 
   const handleLoadedData = useCallback(() => {
     const canvas = canvasRef.current;
@@ -497,18 +505,25 @@ export function StackedAlphaVideo({
 
     // PERF: Set up IntersectionObserver to pause rendering when off-screen
     // This saves significant CPU/GPU when the video scrolls out of view
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const isVisible = entries[0]?.isIntersecting ?? true;
-        handleVisibilityChange(isVisible);
-      },
-      {
-        // Use a small margin to start loading slightly before visible
-        rootMargin: '50px',
-      }
-    );
-    observer.observe(canvas);
-    observerRef.current = observer;
+    let observer: IntersectionObserver | null = null;
+
+    if (pauseWhenOffscreen) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          const isVisible = entries[0]?.isIntersecting ?? true;
+          handleVisibilityChange(isVisible);
+        },
+        {
+          // Use a small margin to start loading slightly before visible
+          rootMargin: '50px',
+        }
+      );
+      observer.observe(canvas);
+      observerRef.current = observer;
+    } else {
+      isVisibleRef.current = true;
+      observerRef.current = null;
+    }
 
     // Handle WebGL context loss events (can happen due to GPU reset, memory pressure, etc.)
     const handleContextLost = (event: Event) => {
@@ -545,7 +560,7 @@ export function StackedAlphaVideo({
 
     return () => {
       // Clean up IntersectionObserver
-      observer.disconnect();
+      observer?.disconnect();
       observerRef.current = null;
 
       // Clean up context event listeners
@@ -561,7 +576,7 @@ export function StackedAlphaVideo({
       // Clean up all render loops
       stopRenderLoop();
     };
-  }, [initWebGL, handleLoadedData, handlePlay, handlePause, handleEnded, handleError, stopRenderLoop, handleVisibilityChange, startRenderLoop]);
+  }, [initWebGL, handleLoadedData, handlePlay, handlePause, handleEnded, handleError, stopRenderLoop, handleVisibilityChange, startRenderLoop, pauseWhenOffscreen]);
 
   // Update video source (setting src triggers load automatically)
   useEffect(() => {
