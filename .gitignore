@@ -43,3 +43,6 @@ logs/
 # Changesets
 .changeset/*.md
 !.changeset/README.md
+
+# Hyperspace
+hyperspace.json
