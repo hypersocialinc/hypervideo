@@ -58,3 +58,15 @@ export type {
   VideoOutput,
   VideoRemoveBackgroundResponse,
 } from './video';
+
+// Job types
+export type {
+  JobStatus,
+  JobStage,
+  SubmitJobOptions,
+  SubmitJobResponse,
+  JobOutput,
+  JobResult,
+  JobResponse,
+  PollOptions,
+} from './jobs';

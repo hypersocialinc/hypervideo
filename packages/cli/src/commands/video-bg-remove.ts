@@ -4,7 +4,7 @@ import type { VideoFormat } from '@hypervideo-dev/sdk';
 import { startSpinner, error, saveDataUrlToFile, formatSize, formatDuration, keyValue } from '../output.js';
 import { formatError, parseTolerance, parseChromaKey, getDefaultOutputPath, createClient } from '../utils.js';
 
-const validFormats: VideoFormat[] = ['webm', 'mov', 'stacked-alpha', 'webp'];
+const validFormats: VideoFormat[] = ['webm', 'mov', 'stacked-alpha', 'webp', 'apng'];
 
 /**
  * Get file extension for format
@@ -19,6 +19,8 @@ function getExtension(format: VideoFormat): string {
       return '.mp4';
     case 'webp':
       return '.webp';
+    case 'apng':
+      return '.apng';
     default:
       return '.webm';
   }
@@ -30,9 +32,9 @@ export function createVideoBgRemoveCommand(): Command {
     .argument('<input>', 'Input video file')
     .option('-o, --output <path>', 'Output file path')
     .option('-f, --format <format>', `Output format: ${validFormats.join(', ')}`, 'webm')
-    .option('-t, --tolerance <number>', 'Background detection tolerance (0-100)', '20')
+    .option('-t, --tolerance <number>', 'Background detection tolerance (0-100)', '30')
     .option('--fps <number>', 'Frames per second (1-60)', '24')
-    .option('-q, --quality <number>', 'WebP quality 0-100 (default: 60, lower = smaller file)')
+    .option('-q, --quality <number>', 'Quality 0-100 (default: 60, lower = smaller). Used for webp/apng.')
     .option('-c, --chroma-key <hex>', 'Manual background color in hex (e.g., #00FF00)')
     .action(async (input: string, options: {
       output?: string;

@@ -97,3 +97,67 @@ export interface EmojiOptions {
   size?: number;
   format?: 'png' | 'webp';
 }
+
+// Video Processing Types
+export type VideoFormat = 'webm' | 'stacked-alpha' | 'webp' | 'apng' | 'mov';
+
+export type VideoProcessingMethod = 'chromakey' | 'ai';
+
+export interface VideoRemoveBackgroundOptions {
+  tolerance?: number;
+  fps?: number;
+  format?: VideoFormat;
+  formats?: VideoFormat[];
+  chromaKey?: BackgroundColor;
+  quality?: number;
+}
+
+export interface VideoOutput {
+  format: VideoFormat;
+  url: string;
+  size: number;
+}
+
+export interface VideoRemoveBackgroundResponse {
+  url: string;
+  format: VideoFormat;
+  size: number;
+  width: number;
+  height: number;
+  duration: number;
+  frameCount: number;
+  fps: number;
+  processingTime: number;
+  processingMethod?: VideoProcessingMethod;
+  outputs?: VideoOutput[];
+  detectedBackgroundColor?: BackgroundColor & { hex: string };
+}
+
+// Async Job Types
+export type JobStatus = 'queued' | 'processing' | 'completed' | 'failed';
+
+export type JobStage = 'loading-input' | 'processing-video' | 'uploading-outputs';
+
+export interface JobResult {
+  outputUrl: string;
+  outputFormat: VideoFormat;
+  outputSize: number;
+  width: number;
+  height: number;
+  processingTimeMs: number;
+  detectedBackgroundColor?: BackgroundColor & { hex: string };
+  outputs: Array<{ format: VideoFormat; url: string; size: number }>;
+}
+
+export interface JobResponse {
+  jobId: string;
+  type: 'video';
+  status: JobStatus;
+  progress: number | null;
+  stage: JobStage | null;
+  createdAt: number;
+  startedAt: number | null;
+  completedAt: number | null;
+  error: { code: string; message: string } | null;
+  result: JobResult | null;
+}

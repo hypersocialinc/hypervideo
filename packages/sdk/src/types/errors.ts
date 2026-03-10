@@ -17,7 +17,9 @@ export type ErrorCode =
   | 'UNAUTHORIZED'
   | 'INVALID_API_KEY'
   | 'NETWORK_ERROR'
-  | 'UNKNOWN_ERROR';
+  | 'UNKNOWN_ERROR'
+  | 'JOB_FAILED'
+  | 'JOB_TIMEOUT';
 
 /**
  * Custom error class for Hypervideo SDK errors

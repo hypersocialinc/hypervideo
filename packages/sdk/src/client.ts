@@ -1,5 +1,6 @@
 import { ImageEndpoints } from './endpoints/image';
 import { VideoEndpoints } from './endpoints/video';
+import { JobsEndpoints } from './endpoints/jobs';
 import { dataUrlToBlob, toDataUrl, extractBase64, extractMimeType } from './utils/blob';
 import { HypervideoError } from './types/errors';
 import type { HypervideoConfig, ResolvedConfig } from './types/common';
@@ -43,6 +44,11 @@ export class Hypervideo {
   public readonly video: VideoEndpoints;
 
   /**
+   * Async job endpoints for long-running video processing
+   */
+  public readonly jobs: JobsEndpoints;
+
+  /**
    * Create a new Hypervideo SDK client
    *
    * @param config - Client configuration
@@ -64,6 +70,7 @@ export class Hypervideo {
 
     this.image = new ImageEndpoints(this.config);
     this.video = new VideoEndpoints(this.config);
+    this.jobs = new JobsEndpoints(this.config);
   }
 
   /**

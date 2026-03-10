@@ -58,18 +58,20 @@ hypervideo video remove-bg {{input}} -o {{output}} -f webp
 | Format | Size | Speed | Browser Support |
 |--------|------|-------|-----------------|
 | `webp` | Smallest (~1.5MB) | ~60s | All browsers |
+| `apng` | Small (~3-5MB) | ~60s | All browsers, native `<img>` tag |
 | `webm` | Small (~2MB) | ~10s | Chrome/Firefox/Edge |
 | `stacked-alpha` | Small (~1MB) | ~10s | All (with WebGL player) |
 | `mov` | Large (~60MB) | ~10s | All browsers |
 
 Options:
-- `-f, --format <format>`: Output format (webp, webm, stacked-alpha, mov)
-- `-q, --quality <number>`: WebP quality 0-100 (default: 60, lower = smaller)
-- `-t, --tolerance <number>`: Background sensitivity (for webm/mov/stacked)
+- `-f, --format <format>`: Output format (webp, webm, stacked-alpha, apng, mov)
+- `-q, --quality <number>`: Quality 0-100 (default: 60, lower = smaller). Used for webp/apng.
+- `-t, --tolerance <number>`: Background sensitivity (default: 30, for webm/mov)
 - `-c, --chroma-key <color>`: Manual color for green/blue screen (forces chromakey)
 
 4. **Format recommendations:**
    - Use `webp` for smallest file size (uses AI processing internally)
+   - Use `apng` for universal browser support including iOS Safari `<img>` tag
    - Use `stacked-alpha` for fastest processing + universal playback
    - Use `webm` for fast processing + native browser support
 

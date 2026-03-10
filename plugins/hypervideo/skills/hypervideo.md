@@ -173,20 +173,47 @@ Parameters:
 Remove background from video with smart processing.
 
 **Smart Processing:**
-- `webp` format → Uses AI (smallest files, ~1.5MB)
-- Other formats → Uses chromakey (fastest, ~10s)
+- `webp`/`apng` format → Uses AI (smallest files, ~1.5MB)
+- `stacked-alpha` → Uses AI (FAL Bria video model, ~15s)
+- `webm`/`mov` → Uses chromakey (fastest, ~10s)
 - Manual `chromaKey` → Forces chromakey (for green/blue screen)
 
 Parameters:
 - `file` or `url`: Video input
-- `format`: Single output format (`webp`, `webm`, `stacked-alpha`, `mov`)
+- `format`: Single output format (`webp`, `webm`, `stacked-alpha`, `apng`, `mov`)
 - `formats`: Array of output formats
-- `tolerance` (0-100): Background removal sensitivity (chromakey)
-- `quality` (0-100): WebP quality (default: 60, lower = smaller)
+- `tolerance` (0-100): Background removal sensitivity (default: 30)
+- `quality` (0-100): Quality for webp/apng (default: 60, lower = smaller)
 - `chromaKey`: Manual color `{ r, g, b }` for green/blue screen
 
 ### POST /api/v1/image/detect-background-color
 Detect the dominant background color from image edges.
+
+### Async Jobs (Queue)
+
+For long-running or large video processing, use the async job API:
+
+**SDK:**
+```typescript
+// Submit a job (returns immediately)
+const { jobId } = await client.jobs.submit({
+  file: videoFile,
+  formats: ['webm', 'stacked-alpha'],
+});
+
+// Poll until complete
+const job = await client.jobs.poll(jobId, {
+  onProgress: (j) => console.log(`${j.progress}% - ${j.stage}`),
+});
+
+console.log(job.result.outputUrl);
+```
+
+**API Endpoints:**
+- `POST /api/v1/jobs/video/remove-background` — Submit job, returns `{ jobId, status: 'queued' }` (HTTP 202)
+- `GET /api/v1/jobs/:jobId` — Poll job status, returns progress/stage/result
+
+Job stages: `loading-input` → `processing-video` → `uploading-outputs` → `completed`
 
 ---
 
@@ -195,12 +222,14 @@ Detect the dominant background color from image edges.
 | Format | Size | Speed | Use Case |
 |--------|------|-------|----------|
 | **webp** | ~1.5MB | ~60s | Smallest files, all browsers, `<img>` tag |
+| **apng** | ~3-5MB | ~60s | All browsers, iOS Safari native, `<img>` tag |
 | **webm** | ~2MB | ~10s | Chrome, Firefox, Edge |
 | **stacked-alpha** | ~8MB | ~10s | Universal with Hypervideo WebGL players |
 | **mov** | ~60MB | ~10s | Safari/iOS native, Final Cut Pro |
 
 **Recommendations:**
 - Use `webp` for smallest file size (uses AI processing)
+- Use `apng` for universal browser support including iOS Safari `<img>` tag
 - Use `stacked-alpha` with `@hypervideo-dev/react` or `@hypervideo-dev/expo` for smooth 60fps playback
 
 ---
