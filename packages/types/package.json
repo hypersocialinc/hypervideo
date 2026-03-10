@@ -1,6 +1,6 @@
 {
   "name": "@hypervideo-dev/types",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Shared TypeScript types for Hypervideo",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
