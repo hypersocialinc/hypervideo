@@ -44,6 +44,7 @@ export type {
   EmoticonVariant,
   EmoticonSize,
   EmoticonResponse,
+  RemoveBackgroundMethod,
   RemoveBackgroundOptions,
   RemoveBackgroundResponse,
   DetectBackgroundColorOptions,

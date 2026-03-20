@@ -217,7 +217,8 @@ export class ImageEndpoints {
   /**
    * Remove background from an image
    *
-   * Auto-detects the background color from edges, or use chromaKey for manual selection.
+   * By default uses AI-based removal (BiRefNet v2) for accurate subject segmentation.
+   * Set `method: 'chroma'` for fast color-distance removal, or use `chromaKey` for manual selection.
    *
    * @param options - Remove background options (file or url required)
    * @returns Promise resolving to PNG with transparency
@@ -225,9 +226,15 @@ export class ImageEndpoints {
    *
    * @example
    * ```ts
-   * // Auto-detect background color
+   * // AI-based removal (default, best quality)
    * const result = await client.image.removeBackground({
    *   file: imageFile,
+   * });
+   *
+   * // Chroma-based removal (faster, for solid backgrounds)
+   * const result = await client.image.removeBackground({
+   *   file: imageFile,
+   *   method: 'chroma',
    *   tolerance: 20,
    * });
    *

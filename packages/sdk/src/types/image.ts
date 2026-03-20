@@ -144,20 +144,29 @@ export interface EmoticonResponse {
 // ============================================================================
 
 /**
+ * Background removal method.
+ * - `"ai"`: Uses BiRefNet v2 neural network for accurate subject segmentation (default)
+ * - `"chroma"`: Uses color-distance edge detection for fast chroma-key removal
+ */
+export type RemoveBackgroundMethod = 'ai' | 'chroma';
+
+/**
  * Options for removing background from an image
  *
  * Provide either `file` or `url` as input (mutually exclusive).
- * By default, auto-detects background color from edges.
- * Use `chromaKey` for manual color selection (e.g., green screen).
+ * By default uses AI-based removal (BiRefNet v2).
+ * Set `method: 'chroma'` for fast color-distance removal, or use `chromaKey` for manual color selection.
  */
 export type RemoveBackgroundOptions = MediaInput & {
-  /** Background removal sensitivity 0-100 (default: 20) */
+  /** Background removal method (default: 'ai') */
+  method?: RemoveBackgroundMethod;
+  /** Background removal sensitivity 0-100 (default: 20). Only used with method='chroma'. */
   tolerance?: number;
-  /** Pixels to sample from edges (default: 50) */
+  /** Pixels to sample from edges (default: 50). Only used with method='chroma'. */
   edgeSampleSize?: number;
-  /** Apply edge smoothing (default: true) */
+  /** Apply edge smoothing (default: true). Only used with method='chroma'. */
   smoothEdges?: boolean;
-  /** Manual chromakey color (e.g., green screen) */
+  /** Manual chromakey color (e.g., green screen). Forces method='chroma'. */
   chromaKey?: RGB;
 };
 
@@ -174,7 +183,9 @@ export interface RemoveBackgroundResponse {
   size: number;
   /** Processing time in milliseconds */
   processingTime: number;
-  /** Detected background color (auto-detect mode) */
+  /** Method used for background removal */
+  method: RemoveBackgroundMethod;
+  /** Detected background color (chroma mode only) */
   detectedBackgroundColor?: RGBWithHex;
 }
 
