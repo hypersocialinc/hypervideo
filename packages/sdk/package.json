@@ -1,6 +1,6 @@
 {
   "name": "@hypervideo-dev/sdk",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Official SDK for Hypervideo media transformation API",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
